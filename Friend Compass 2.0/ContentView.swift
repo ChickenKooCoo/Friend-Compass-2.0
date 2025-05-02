@@ -1,9 +1,3 @@
-//
-//  ContentView.swift
-//  Friend Compass 2.0
-//
-//  Created by Daniel G. Ilchev on 4/28/25.
-//
 
 import SwiftUI
 import MapKit

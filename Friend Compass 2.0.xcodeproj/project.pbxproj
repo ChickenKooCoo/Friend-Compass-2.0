@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7A6E87462DCD38F300C66246 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A6E87452DCD38F300C66246 /* FirebaseCore */; };
+		7A6E87482DCD38F800C66246 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A6E87472DCD38F800C66246 /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		7A5614062DC01582004FDCDB /* Friend Compass 2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Friend Compass 2.0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A6E87462DCD38F300C66246 /* FirebaseCore in Frameworks */,
+				7A6E87482DCD38F800C66246 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +40,7 @@
 			isa = PBXGroup;
 			children = (
 				7A5614082DC01582004FDCDB /* Friend Compass 2.0 */,
+				7A6E87442DCD38F300C66246 /* Frameworks */,
 				7A5614072DC01582004FDCDB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +51,13 @@
 				7A5614062DC01582004FDCDB /* Friend Compass 2.0.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		7A6E87442DCD38F300C66246 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +80,8 @@
 			);
 			name = "Friend Compass 2.0";
 			packageProductDependencies = (
+				7A6E87452DCD38F300C66246 /* FirebaseCore */,
+				7A6E87472DCD38F800C66246 /* FirebaseFirestore */,
 			);
 			productName = "Friend Compass 2.0";
 			productReference = 7A5614062DC01582004FDCDB /* Friend Compass 2.0.app */;
@@ -94,6 +111,9 @@
 			);
 			mainGroup = 7A5613FD2DC01582004FDCDB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7A6E87432DCD38AB00C66246 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7A5614072DC01582004FDCDB /* Products */;
 			projectDirPath = "";
@@ -322,6 +342,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7A6E87432DCD38AB00C66246 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7A6E87452DCD38F300C66246 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A6E87432DCD38AB00C66246 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		7A6E87472DCD38F800C66246 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A6E87432DCD38AB00C66246 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7A5613FE2DC01582004FDCDB /* Project object */;
 }

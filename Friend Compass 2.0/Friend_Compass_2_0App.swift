@@ -1,17 +1,27 @@
-//
-//  Friend_Compass_2_0App.swift
-//  Friend Compass 2.0
-//
-//  Created by Daniel G. Ilchev on 4/28/25.
-//
-
 import SwiftUI
+import FirebaseCore
+
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+
+    return true
+  }
+}
 
 @main
-struct Friend_Compass_2_0App: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+struct Friend_Compass: App {
+  // register app delegate for Firebase setup
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
+
+  var body: some Scene {
+    WindowGroup {
+      NavigationView {
+        ContentView()
+      }
     }
+  }
 }

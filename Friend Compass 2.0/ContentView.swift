@@ -11,28 +11,33 @@ struct ContentView: View {
         )
     )
     @State private var compassScale: CGFloat = 0.2
+    var holeRadius: CGFloat {
+        50
+    }
+    @State private var rotation: Angle = .degrees(0)
+
 
     var body: some View {
-        LocationView()
-        
         ZStack {
-            //world map
-            Map(position: $position)
-                .mapStyle(.hybrid(elevation: .realistic))
-                .mapStyle(.standard(pointsOfInterest: .all))
-                .mapControls {
-                    MapCompass()
-                    MapScaleView()
-                    MapUserLocationButton()
-                }
-                .ignoresSafeArea()
-            //back button
+            // 🌍 World Map
+            Map(position: $position) {
+                UserAnnotation()
+            }
+            .mapStyle(.hybrid(elevation: .realistic))
+            .mapStyle(.standard(pointsOfInterest: .all))
+            .mapControls {
+                MapCompass()
+                MapScaleView()
+                MapUserLocationButton()
+            }
+            .ignoresSafeArea()
+
+            // 🔙 Back Button
             VStack {
                 HStack {
                     Button(action: {
                         withAnimation {
-                            compassScale = 0.1
-                            
+                            compassScale = 0.2
                         }
                     }) {
                         Image(systemName: "chevron.left")
@@ -47,7 +52,8 @@ struct ContentView: View {
                 .padding(.leading, 20)
                 Spacer()
             }
-            //compass image
+
+            // 🧭 Compass Hole Overlay
             Color.clear
                 .overlay(
                     ZStack {
@@ -56,23 +62,40 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .scaleEffect(1)
-                    }
-                        .mask(
-                            ZStack {
-                                Rectangle()
-                                
-                                Circle()
-                                    .scaleEffect(compassScale)
-                                    .blendMode(.destinationOut)
-                            }
-                                .compositingGroup()
+                        // 🧭 Circular Text around the hole
+                        CircularText(
+                            text: "  Tap here for world map.  ",
+                            radius: holeRadius,
+                            font: .system(size: 14, weight: .bold)
                         )
-                    
+                        .rotationEffect(rotation)
+                        .onAppear {
+                            withAnimation(Animation.linear(duration: 20).repeatForever(autoreverses: false)) {
+                                rotation = .degrees(-360)
+                            }
+                        }
+                        .allowsHitTesting(false)
+                        .foregroundColor(.white)
+                    }
+                    .mask(
+                        ZStack {
+                            Rectangle()
+                            Circle()
+                                .scaleEffect(compassScale)
+                                .blendMode(.destinationOut)
+                        }
+                        .compositingGroup()
+                    )
                 )
                 .allowsHitTesting(false)
+
             
-            
-            //button -> enlarges hole
+
+
+            // 📍 Arrow (Custom View)
+            LocationView()
+
+            // ⭕ Button to enlarge the hole
             if compassScale < 1.0 {
                 Button(action: {
                     withAnimation {
@@ -85,59 +108,59 @@ struct ContentView: View {
                 }
                 .frame(width: 100, height: 100)
             }
-//            Circle()
-//                .frame(width: 100, height: 100)
-//                .shadow(color: .red, radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/)
         }
-//        Image("shadow")
-//            .resizable()
-//            .scaledToFit()
-//            .scaleEffect(1)
-        
-        
-        
-        
-        VStack {
-            
-        }
-        .padding()
     }
+}
+
+// 🔠 Circular Text View
+struct CircularText: View {
+    let text: String
+    let radius: CGFloat
+    let font: Font
+
+    var body: some View {
+        ZStack {
+            ForEach(Array(text.enumerated()), id: \.offset) { index, char in
+                let angle = Double(index) / Double(text.count) * 360.0
+                let radians = Angle(degrees: angle).radians
+
+                Text(String(char))
+                    .font(font)
+                    .rotationEffect(Angle(degrees: angle + 90))
+                    .position(
+                        x: cos(radians) * radius + radius,
+                        y: sin(radians) * radius + radius
+                    )
+            }
+        }
+        .frame(width: radius * 2, height: radius * 2)
+    }
+}
+
+// 📍 Sample Location Setup
+struct Locations {
+    static let prospectLocation = CLLocationCoordinate2D(
+        latitude: 42.0791,
+        longitude: -87.94954
+    )
+
+    static let prospectPosition = MapCameraPosition.region(
+        MKCoordinateRegion(
+            center: Locations.prospectLocation,
+            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        )
+    )
+
+    static let prospectAngled = MapCameraPosition.camera(
+        MapCamera(
+            centerCoordinate: Locations.prospectLocation,
+            distance: 500,
+            heading: 260.0,
+            pitch: 60.0
+        )
+    )
 }
 
 #Preview {
     ContentView()
-}
-
-struct Locations {  //2nd
-    static let prospectLocation = CLLocationCoordinate2D(        //lines 74-93 were a stretch to add a second button
-        
-        latitude: 42.0791, longitude: -87.94954
-        
-    )
-    static let prospectPosition = MapCameraPosition.region(
-        
-        MKCoordinateRegion(
-            
-            center: Locations.prospectLocation,
-            
-            span: MKCoordinateSpan(
-                
-                latitudeDelta: 0.01, longitudeDelta: 0.01
-                
-            )
-            
-        ))
-    static let prospectAngled = MapCameraPosition.camera(
-        
-        MapCamera(
-            
-            centerCoordinate: Locations.prospectLocation,
-            
-            distance: 500,
-            
-            heading: 260.0,
-            
-            pitch: 60.0
-        )
-    )
 }

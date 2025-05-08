@@ -8,9 +8,6 @@ struct LocationView: View {
     
     var body: some View {
             VStack {
-                Map {
-                    UserAnnotation()
-                }
 
                 ZStack {
                     Circle()
@@ -23,8 +20,9 @@ struct LocationView: View {
                         .rotationEffect(.degrees(locationManager.directionToTarget))
                 }
                 .padding()
+                .foregroundColor(.white)
 
-                Text("Heading: \(locationManager.currentHeading, specifier: "%.1f")°")
+
             }
         }
     }

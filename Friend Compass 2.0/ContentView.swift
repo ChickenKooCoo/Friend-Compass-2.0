@@ -1,43 +1,71 @@
 import SwiftUI
 import MapKit
+import Firebase
 
 struct ContentView: View {
+    @StateObject var locationManager = MyLocationManager()
+    @StateObject var remoteLocationManager = RemoteLocationManager()
+
     @State var position: MapCameraPosition = .camera(
         MapCamera(
             centerCoordinate: CLLocationCoordinate2D(latitude: 20, longitude: 0),
-            distance: 80000000,
+            distance: 90000000,
             heading: 0,
             pitch: 0
         )
     )
-    @State private var compassScale: CGFloat = 0.2
     var holeRadius: CGFloat {
         50
     }
     @State private var rotation: Angle = .degrees(0)
+    
+    @StateObject var authManager = AuthManager.shared
+
+    @State private var compassScale: CGFloat = 0.2
+    @State private var mapScale: CGFloat = 0.2
 
 
     var body: some View {
         ZStack {
-            // 🌍 World Map
+            // World Map
             Map(position: $position) {
-                UserAnnotation()
+                if let coordinate = locationManager.currentLocation?.coordinate {
+                    Annotation("Hi", coordinate: coordinate) {
+                        Image(systemName: "location.fill")
+                            .foregroundColor(.blue)
+                            .font(.title)
+                    }
+                }
+
+                ForEach(remoteLocationManager.devices) { device in
+                    Annotation("Hi 2", coordinate: device.coordinate) {
+                        Image(systemName: "person.fill")
+                            .foregroundColor(.green)
+                            .font(.title2)
+                    }
+                }
             }
             .mapStyle(.hybrid(elevation: .realistic))
             .mapStyle(.standard(pointsOfInterest: .all))
             .mapControls {
-                MapCompass()
                 MapScaleView()
                 MapUserLocationButton()
+                MapCompass()
             }
             .ignoresSafeArea()
+            .scaleEffect(mapScale)
 
-            // 🔙 Back Button
+            // Back Button
             VStack {
                 HStack {
                     Button(action: {
-                        withAnimation {
+                        withAnimation(.easeInOut(duration: 2)) {
                             compassScale = 0.2
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            withAnimation(.easeInOut(duration: 1)) {
+                                mapScale = 0.3
+                            }
                         }
                     }) {
                         Image(systemName: "chevron.left")
@@ -53,7 +81,7 @@ struct ContentView: View {
                 Spacer()
             }
 
-            // 🧭 Compass Hole Overlay
+            // Compass Hole with Circular Text
             Color.clear
                 .overlay(
                     ZStack {
@@ -62,7 +90,7 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .scaleEffect(1)
-                        // 🧭 Circular Text around the hole
+
                         CircularText(
                             text: "  Tap here for world map.  ",
                             radius: holeRadius,
@@ -89,17 +117,17 @@ struct ContentView: View {
                 )
                 .allowsHitTesting(false)
 
-            
+            // Compass arrow
+            LocationView(locationManager: locationManager, targets: remoteLocationManager.devices)
 
-
-            // 📍 Arrow (Custom View)
-            LocationView()
-
-            // ⭕ Button to enlarge the hole
+            // Button to enlarge hole
             if compassScale < 1.0 {
                 Button(action: {
                     withAnimation {
                         compassScale = 2.5
+                    }
+                    withAnimation(.linear(duration: 0.1)) {
+                        mapScale = 1
                     }
                 }) {
                     Color.clear
@@ -112,7 +140,6 @@ struct ContentView: View {
     }
 }
 
-// 🔠 Circular Text View
 struct CircularText: View {
     let text: String
     let radius: CGFloat
@@ -126,6 +153,13 @@ struct CircularText: View {
 
                 Text(String(char))
                     .font(font)
+                    .foregroundColor(.white)
+                    .overlay(
+                        Text(String(char))
+                            .font(font)
+                            .foregroundColor(.black)
+                            .offset(x: 1, y: 1)
+                    )
                     .rotationEffect(Angle(degrees: angle + 90))
                     .position(
                         x: cos(radians) * radius + radius,

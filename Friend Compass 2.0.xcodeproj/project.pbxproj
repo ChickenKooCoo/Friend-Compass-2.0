@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A6E87462DCD38F300C66246 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A6E87452DCD38F300C66246 /* FirebaseCore */; };
-		7A6E87482DCD38F800C66246 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A6E87472DCD38F800C66246 /* FirebaseFirestore */; };
-		7A9B2CCA2DD5271100740431 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7A9B2CC92DD5271100740431 /* FirebaseAuth */; };
+		B176FE302DD7C40500A1F4E0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B176FE2F2DD7C40500A1F4E0 /* FirebaseAuth */; };
+		B176FE322DD7C40500A1F4E0 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = B176FE312DD7C40500A1F4E0 /* FirebaseCore */; };
+		B176FE342DD7C40500A1F4E0 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = B176FE332DD7C40500A1F4E0 /* FirebaseDatabase */; };
+		B176FE362DD7C40500A1F4E0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B176FE352DD7C40500A1F4E0 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,9 +30,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A6E87462DCD38F300C66246 /* FirebaseCore in Frameworks */,
-				7A9B2CCA2DD5271100740431 /* FirebaseAuth in Frameworks */,
-				7A6E87482DCD38F800C66246 /* FirebaseFirestore in Frameworks */,
+				B176FE342DD7C40500A1F4E0 /* FirebaseDatabase in Frameworks */,
+				B176FE362DD7C40500A1F4E0 /* FirebaseFirestore in Frameworks */,
+				B176FE322DD7C40500A1F4E0 /* FirebaseCore in Frameworks */,
+				B176FE302DD7C40500A1F4E0 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,7 +44,6 @@
 			isa = PBXGroup;
 			children = (
 				7A5614082DC01582004FDCDB /* Friend Compass 2.0 */,
-				7A6E87442DCD38F300C66246 /* Frameworks */,
 				7A5614072DC01582004FDCDB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,13 +54,6 @@
 				7A5614062DC01582004FDCDB /* Friend Compass 2.0.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		7A6E87442DCD38F300C66246 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -82,9 +76,10 @@
 			);
 			name = "Friend Compass 2.0";
 			packageProductDependencies = (
-				7A6E87452DCD38F300C66246 /* FirebaseCore */,
-				7A6E87472DCD38F800C66246 /* FirebaseFirestore */,
-				7A9B2CC92DD5271100740431 /* FirebaseAuth */,
+				B176FE2F2DD7C40500A1F4E0 /* FirebaseAuth */,
+				B176FE312DD7C40500A1F4E0 /* FirebaseCore */,
+				B176FE332DD7C40500A1F4E0 /* FirebaseDatabase */,
+				B176FE352DD7C40500A1F4E0 /* FirebaseFirestore */,
 			);
 			productName = "Friend Compass 2.0";
 			productReference = 7A5614062DC01582004FDCDB /* Friend Compass 2.0.app */;
@@ -115,7 +110,7 @@
 			mainGroup = 7A5613FD2DC01582004FDCDB;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				7A6E87432DCD38AB00C66246 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				B176FE2E2DD7C40500A1F4E0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7A5614072DC01582004FDCDB /* Products */;
@@ -274,9 +269,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BWYT76Q3DS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This will allow others to see your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -303,9 +298,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BWYT76Q3DS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This will allow others to see your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -349,7 +344,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7A6E87432DCD38AB00C66246 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		B176FE2E2DD7C40500A1F4E0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
@@ -360,20 +355,25 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7A6E87452DCD38F300C66246 /* FirebaseCore */ = {
+		B176FE2F2DD7C40500A1F4E0 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7A6E87432DCD38AB00C66246 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = B176FE2E2DD7C40500A1F4E0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		B176FE312DD7C40500A1F4E0 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B176FE2E2DD7C40500A1F4E0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCore;
 		};
-		7A6E87472DCD38F800C66246 /* FirebaseFirestore */ = {
+		B176FE332DD7C40500A1F4E0 /* FirebaseDatabase */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7A6E87432DCD38AB00C66246 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
+			package = B176FE2E2DD7C40500A1F4E0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
 		};
-		7A9B2CC92DD5271100740431 /* FirebaseAuth */ = {
+		B176FE352DD7C40500A1F4E0 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7A6E87432DCD38AB00C66246 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
+			package = B176FE2E2DD7C40500A1F4E0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

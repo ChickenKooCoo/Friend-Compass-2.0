@@ -7,6 +7,7 @@ import Foundation
 struct LocationView: View {
     @ObservedObject var locationManager: MyLocationManager
     var targets: [DeviceLocation]
+    
 
     var body: some View {
         VStack {
@@ -35,12 +36,30 @@ class MyLocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var currentLocation: CLLocation?
     @Published var currentHeading: CLLocationDirection = 0
 
+    @Published var latitudeString: String = "36.1069" {
+        didSet {
+            updateTargetLocation()
+        }
+    }
+
+    @Published var longitudeString: String = "-112.1129" {
+        didSet {
+            updateTargetLocation()
+        }
+    }
+
     override init() {
         super.init()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading()
+    }
+
+    func updateTargetLocation() {
+        if let lat = Double(latitudeString), let lon = Double(longitudeString) {
+            targetLocation = CLLocation(latitude: lat, longitude: lon)
+        }
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -79,7 +98,7 @@ class MyLocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     var directionToTarget: Double {
         (bearingToTarget - currentHeading + 360).truncatingRemainder(dividingBy: 360)
     }
-    
+
     func direction(to coordinate: CLLocationCoordinate2D) -> Double {
         guard let currentLocation = currentLocation else { return 0 }
 
@@ -95,7 +114,6 @@ class MyLocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         return (bearing - currentHeading + 360).truncatingRemainder(dividingBy: 360)
     }
 }
-
 class RemoteLocationManager: ObservableObject {
     @Published var devices: [DeviceLocation] = []
 

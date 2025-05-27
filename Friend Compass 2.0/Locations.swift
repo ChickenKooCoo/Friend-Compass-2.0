@@ -137,11 +137,6 @@ class RemoteLocationManager: ObservableObject {
     }
 }
 
-struct DeviceLocation: Identifiable {
-    let id: String
-    var coordinate: CLLocationCoordinate2D  
-}
-
 extension Double {
     var radians: Double { self * .pi / 180 }
     var degrees: Double { self * 180 / .pi }

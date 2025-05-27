@@ -3,8 +3,13 @@ import MapKit
 import Firebase
 
 struct ContentView: View {
-    @StateObject var locationManager = MyLocationManager()
+
     @StateObject var remoteLocationManager = RemoteLocationManager()
+    @ObservedObject var friendManager = FriendLocationManager()
+    @ObservedObject var locationManager = MyLocationManager()
+    
+    @StateObject var groupManager = GroupLocationManager()
+    @State private var selectedGroupID: String? = nil
 
     @State var position: MapCameraPosition = .camera(
         MapCamera(
@@ -20,11 +25,11 @@ struct ContentView: View {
     @State private var rotation: Angle = .degrees(0)
     
     @StateObject var authManager = AuthManager.shared
-
+    
     @State private var compassScale: CGFloat = 0.2
     @State private var mapScale: CGFloat = 0.2
-
-
+    
+    
     var body: some View {
         ZStack {
             // World Map
@@ -36,7 +41,7 @@ struct ContentView: View {
                             .font(.title)
                     }
                 }
-
+                
                 ForEach(remoteLocationManager.devices) { device in
                     Annotation("Hi 2", coordinate: device.coordinate) {
                         Image(systemName: "person.fill")
@@ -54,7 +59,7 @@ struct ContentView: View {
             }
             .ignoresSafeArea()
             .scaleEffect(mapScale)
-
+            
             // Back Button
             VStack {
                 HStack {
@@ -80,7 +85,7 @@ struct ContentView: View {
                 .padding(.leading, 20)
                 Spacer()
             }
-
+            
             // Compass Hole with Circular Text
             Color.clear
                 .overlay(
@@ -90,7 +95,7 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .scaleEffect(1)
-
+                        
                         CircularText(
                             text: "  Tap here for world map.  ",
                             radius: holeRadius,
@@ -105,21 +110,21 @@ struct ContentView: View {
                         .allowsHitTesting(false)
                         .foregroundColor(.white)
                     }
-                    .mask(
-                        ZStack {
-                            Rectangle()
-                            Circle()
-                                .scaleEffect(compassScale)
-                                .blendMode(.destinationOut)
-                        }
-                        .compositingGroup()
-                    )
+                        .mask(
+                            ZStack {
+                                Rectangle()
+                                Circle()
+                                    .scaleEffect(compassScale)
+                                    .blendMode(.destinationOut)
+                            }
+                                .compositingGroup()
+                        )
                 )
                 .allowsHitTesting(false)
-
+            
             // Compass arrow
             LocationView(locationManager: locationManager, targets: remoteLocationManager.devices)
-
+            
             // Button to enlarge hole
             if compassScale < 1.0 {
                 Button(action: {
@@ -135,6 +140,60 @@ struct ContentView: View {
                         .scaleEffect(0.7)
                 }
                 .frame(width: 100, height: 100)
+            }
+            
+        }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                
+                // MARK: - User Location Info
+                if let myLocation = locationManager.currentLocation {
+                    Text("My Location: \(myLocation.coordinate.latitude), \(myLocation.coordinate.longitude)")
+                        .font(.footnote)
+                        .foregroundColor(.blue)
+                } else {
+                    Text("My Location: Unavailable")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                }
+                
+                Divider()
+                
+                // MARK: - Groups Debug Info
+                Text("Groups")
+                    .font(.headline)
+                ForEach(groupManager.groups) { group in
+                    Button(action: {
+                        selectedGroupID = group.id
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text(group.name)
+                                .font(.headline)
+                            Text("Members: \(group.members.count)")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
+                // MARK: - Friends Debug Info
+                Text("Friends")
+                    .font(.headline)
+                ForEach(friendManager.friends) { friend in
+                    VStack(alignment: .leading) {
+                        Text("Friend: \(friend.name)")
+                            .font(.subheadline)
+                        if let location = friend.location {
+                            Text("Location: \(location.latitude), \(location.longitude)")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        } else {
+                            Text("Location: Unavailable")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    Divider()
+                }
             }
         }
     }

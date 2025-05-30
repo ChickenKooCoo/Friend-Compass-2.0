@@ -8,7 +8,7 @@ class FriendLocationManager: ObservableObject {
 
     func updateFriendLocation(id: String, location: CLLocationCoordinate2D) {
         if let index = friends.firstIndex(where: { $0.id == id }) {
-            friends[index].location = location
+            friends[index].location = Coordinate(from: location)
         }
     }
 

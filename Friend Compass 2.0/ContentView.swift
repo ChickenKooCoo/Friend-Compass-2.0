@@ -196,6 +196,7 @@ struct ContentView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity,maxHeight: 130)
     }
 }
 
